@@ -127,15 +127,21 @@ def print_args(args):
 
 def build_move_file(src,dst,relfile):
     frompath = os.path.join(src,'./',relfile)
-    topath   = dst+'/'
-    args = ['rsync',
-            '-avlHAXWES',
-            '--relative',
-            '--progress',
-            '--remove-source-files',
-            frompath,
-            topath]
-    return args
+    topath   = os.path.join(dst,'./',relfile)
+    if os.path.isdir(os.path.dirname(topath)):
+        return ['advmv',
+                '-g',
+                frompath,
+                topath]
+    else:
+        return ['rsync',
+                '-avlHAXWES',
+                '-g',
+                '--progress',
+                '--relative',
+                '--remove-source-files',
+                frompath,
+                dst+'/']
 
 
 def freespace_percentage(srcmounts):

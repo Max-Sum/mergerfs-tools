@@ -6,6 +6,11 @@ Optional tools to help manage data in a mergerfs pool.
 
 All of these suplimental tools are self contained Python3 apps. Make sure you have Python 3 installed and either run `make install` or copy the file to `/usr/local/bin` or wherever you keep your binarys and make it executable (chmod +x).
 
+## ADVANCED COPY / MOVE
+
+This fork version uses `advcpmv` instead of `rsync`. This could help the performance on poor CPU machines.
+To build and install `advcpmv`, refer to [jarun/advcpmv](https://github.com/jarun/advcpmv).
+
 ## TOOLS
 ### mergerfs.ctl
 
@@ -68,7 +73,7 @@ $ mergerfs.fsck -v -f manual /path/to/dir
 
 Duplicates files & directories across branches in a pool. The file selected for duplication is picked by the `dup` option. Files will be copied to drives with the most free space. Deleted from others if `prune` is enabled.
 
-See usage for more. Run as `root`. Requires `rsync` to be installed.
+See usage for more. Run as `root`. Requires `advcp` to be installed.
 
 ```
 usage: mergerfs.dup [<options>] <dir>
@@ -91,7 +96,7 @@ optional arguments:
                          * mergerfs : file chosen by mergerfs' getattr
   -p, --prune            Remove files above `count`. Without this enabled
                          it will update all existing files.
-  -e, --execute          Execute `rsync` and `rm` commands. Not just
+  -e, --execute          Execute `advcp` and `rm` commands. Not just
                          print them.
   -I, --include=         fnmatch compatible filter to include files.
                          Can be used multiple times.
@@ -158,7 +163,7 @@ rm -vf /mnt/drive3/test/foo
 
 Will move files from the most filled drive (percentage wise) to the least filled drive. Will do so till the most and least filled drives come within a user defined percentage range (defaults to 2%).
 
-Run as `root`. Requires `rsync` to be installed.
+Run as `root`. Requires `advmv` to be installed.
 
 ```
 usage: mergerfs.balance [-h] [-p PERCENTAGE] [-i INCLUDE] [-e EXCLUDE]
@@ -192,7 +197,7 @@ optional arguments:
 # mergerfs.balance /media
 from: /mnt/drive1/foo/bar
 to:   /mnt/drive2/foo/bar
-rsync ...
+advmv -g ...
 ```
 
 
@@ -200,7 +205,7 @@ rsync ...
 
 Consolidate **files** in a **single** mergerfs directory onto a **single** drive, recursively. This does **NOT** move all files at and below that directory to 1 drive. If you want to move data between drives simply use normal rsync or similar. This tool is only useful in niche usecases where the person wants to colocate files of their TV, music, etc. files onto a single drive *after the fact.* If you really wanted that you should probably use path preservation. For most people there is only downsides to using path preservation or colocating files.
 
-Run as `root`. Requires `rsync` to be installed.
+Run as `root`. Requires `advmv` to be installed.
 
 ```
 usage: mergerfs.consolidate [<options>] <dir>
@@ -217,7 +222,7 @@ optional arguments:
                          Can be used multiple times.
   -E, --exclude-path=    fnmatch compatible path exclude filter.
                          Can be used multiple times.
-  -e, --execute          Execute `rsync` commands as well as print them.
+  -e, --execute          Execute `advmv` commands as well as print them.
   -h, --help             Print this help.
 ```
 

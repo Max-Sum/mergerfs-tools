@@ -126,13 +126,9 @@ def get_stats(branches):
 def build_move_file(src,tgt,rel):
     rel = rel.strip('/')
     srcpath = os.path.join(src,'./',rel)
-    tgtpath = tgt.rstrip('/') + '/'
-    return ['rsync',
-            '-avHAXWES',
-            '--numeric-ids',
-            '--progress',
-            '--relative',
-            '--remove-source-files',
+    tgtpath = os.path.join(tgt.rstrip('/'),'./',rel)
+    return ['advmv',
+            '-g',
             srcpath,
             tgtpath]
 
