@@ -92,11 +92,8 @@ def print_args(args):
 def build_copy_file(src,tgt,rel):
     srcpath = os.path.join(src,'./',rel)
     tgtpath = tgt + '/'
-    return ['rsync',
-            '-avHAXWES',
-            '--numeric-ids',
-            '--progress',
-            '--relative',
+    return ['advcp',
+            '-agr',
             srcpath,
             tgtpath]
 

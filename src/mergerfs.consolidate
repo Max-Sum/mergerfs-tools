@@ -127,12 +127,8 @@ def build_move_file(src,tgt,rel):
     rel = rel.strip('/')
     srcpath = os.path.join(src,'./',rel)
     tgtpath = tgt.rstrip('/') + '/'
-    return ['rsync',
-            '-avHAXWES',
-            '--numeric-ids',
-            '--progress',
-            '--relative',
-            '--remove-source-files',
+    return ['advmv',
+            '-g',
             srcpath,
             tgtpath]
 
